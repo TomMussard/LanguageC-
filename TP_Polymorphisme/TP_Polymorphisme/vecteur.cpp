@@ -1,6 +1,6 @@
 #include "vecteur.h"
 
-vecteur::vecteur()
+Vecteur::Vecteur() noexcept
 {
 
 }
