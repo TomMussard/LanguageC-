@@ -3,7 +3,7 @@
 #include <iostream>
 #include <set>
 #include "rouleau.h"
-#include "rouleau.h"
+
 
 
 typedef std::multiset<Rouleau>::iterator positionStock;
@@ -13,8 +13,9 @@ class stock : public std::multiset<Rouleau>
 public:
     stock();
     void AjouterRouleau(const Rouleau &_nouveauRouleau);
-    unsigned int RechercherSerie(positionStock &it);
-    void SortirRouleau(positionStock &it);
+    int RechercherSerie(positionStock &_positionDebut);
+    bool SortirRouleau(const positionStock &_positionRouleau);
+
     void Visualiser() const;
 };
 

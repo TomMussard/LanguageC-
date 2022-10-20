@@ -1,6 +1,6 @@
 #include "alveoleslibres.h"
 #include <iostream>
-
+#include <algorithm>
 AlveolesLibres::AlveolesLibres(const int _nbRangees, const int _nbColonnes):
     nbRangees(_nbRangees),
     nbColonnes(_nbColonnes)
@@ -34,18 +34,16 @@ bool AlveolesLibres::Reserver(int &rangee, int &colonne)
 
 bool AlveolesLibres::Liberer(const int _rangee, const int _colonne)
 {
-    int numAlveole;
+    bool ajoutAlveole = false;
+    int numAlveole = (_rangee-1) * nbColonnes + _colonne;
 
-    if(size()<capacity())
+    if(find(begin(), end(), numAlveole) == end())
     {
-        numAlveole= (_rangee-1) * nbColonnes + _colonne;
         push_back(numAlveole);
-        cout << "Vous avez libéré des alvéoles" << endl;
+        ajoutAlveole = true;
+
     }
-    else
-    {
-        cout << "Impossible de libérer une alvéoles de plus" << endl;
-    }
+    return ajoutAlveole;
 }
 
 void AlveolesLibres::Visualiser()

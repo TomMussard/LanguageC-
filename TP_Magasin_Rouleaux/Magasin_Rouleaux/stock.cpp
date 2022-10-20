@@ -1,5 +1,5 @@
 #include "stock.h"
-
+#include <iostream>
 stock::stock()
 {
 
@@ -10,25 +10,43 @@ void stock::AjouterRouleau(const Rouleau &_nouveauRouleau)
     insert(_nouveauRouleau);
 }
 
-unsigned int stock::RechercherSerie(positionStock &it)
+int stock::RechercherSerie(positionStock &_positionDebut)
 {
-    unsigned int retour = 0;
-    if(size() < 6){
-        retour = size();
-        it = begin();
+
+    int nbRouleau = (int) size();
+    positionStock positionPremier = begin();
+    _positionDebut = positionPremier;
+    if(nbRouleau > 6)
+    {
+        nbRouleau = 6;
+        positionStock positionDernier = begin();
+
+        for (int indice = 1; indice < 6; indice++)
+            positionDernier++;
+
+        int valeurRetenue = *positionDernier - *positionPremier;
+        while(positionDernier != end())
+        {
+            if(valeurRetenue > (*positionDernier - *positionPremier))
+            {
+                _positionDebut = positionPremier;
+                valeurRetenue = *positionDernier - *positionPremier;
+            }
+            positionDernier++;
+            positionPremier++;
+            }
     }
-    else {
-        retour = 6;
-        it = begin();
-    }
-    return retour;
+    return nbRouleau;
 }
 
 
 void stock::Visualiser() const
+
+
 {
     positionStock it;
-    int nb = {0};
+    int nb = {0};  //nombre rouleau en magasin
+
     for (it = begin(); it != end(); it++){
         it->Visualiser();
         nb++;
@@ -37,7 +55,14 @@ void stock::Visualiser() const
         cout << "Le magasin est vide" << endl;
 }
 
-void stock::SortirRouleau(positionStock &it)
+
+bool stock::SortirRouleau(const positionStock &_positionRouleau)
 {
-    erase(it);
+    bool rouleauSuppr =false;
+    if(_positionRouleau !=end())
+    {
+        rouleauSuppr =true;
+        erase(_positionRouleau);
+    }
+    return rouleauSuppr;
 }
