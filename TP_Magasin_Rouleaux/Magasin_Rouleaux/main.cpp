@@ -1,56 +1,57 @@
 #include "alveoleslibres.h"
+#include "magasin.h"
 #include "menu.h"
+#include "rouleau.h"
+#include "stock.h"
 #include <iostream>
 
 using namespace std;
 
-
 enum CHOIX_MENU
 {
-    RESERVER = 1,
-    LIBERER,
+    ENTRER_ROULEAU = 1,
+    SORTIR_SERIE,
     VISUALISER,
-    QUITTER
+    QUITTER,
 };
 
 int main()
 {
-    int choix;
-    int val1;
-    int val2;
-    AlveolesLibres lesAlveoleslibres(2,5);
-    Menu leMenu("../Magasin_Rouleaux/alveoles.txt");
-    do
-    {
-        choix = leMenu.Afficher();
-        switch (choix)
-        {
-        case RESERVER:
-            cout << "Entrer la rangée : ";
-            cin >> val1;
-            cout << "Entrer la colonne : ";
-            cin >> val2;
-            cout << "Vous avez reservé une alvéole" << endl;
-            lesAlveoleslibres.Reserver(val1, val2);
-            Menu::AttendreAppuiTouche();
-            break;
-        case LIBERER:
-            cout << "Entrer la rangée : ";
-            cin >> val1;
-            cout << "Entrer la colonne : ";
-            cin >> val2;
-            lesAlveoleslibres.Liberer(val1, val2);
-            Menu::AttendreAppuiTouche();
-            break;
+    cout << "Gestion du magasin" << endl << endl;
 
-        case VISUALISER:
-            cout << "Vous avez visualisez les alvéoles" << endl;
-            lesAlveoleslibres.Visualiser();
-            Menu::AttendreAppuiTouche();
-            break;
+    try {
 
-        }
+        Menu leMenuMagasin("../Magasin_Rouleaux/magasin.txt");
+        Magasin leMagasin;
 
-    } while(choix != QUITTER);
+        int choix;
+
+        do {
+            choix = leMenuMagasin.Afficher();
+            switch (choix)
+            {
+            case ENTRER_ROULEAU:
+                cout << endl;
+                leMagasin.EntrerRouleau();
+                Menu::AttendreAppuiTouche();
+                break;
+
+            case SORTIR_SERIE:
+                cout << endl;
+                leMagasin.SortirRouleau();
+                Menu::AttendreAppuiTouche();
+                break;
+
+            case VISUALISER:
+                cout << endl;
+                leMagasin.Visualiser();
+                Menu::AttendreAppuiTouche();
+                break;
+            }
+        }while(choix != QUITTER);
+    }catch(std::runtime_error &e){
+        cout << e.what() << endl;
+        exit(EXIT_FAILURE);
+    }
     return 0;
 }
